@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Component } from 'react';
+import "bootstrap/dist/css/bootstrap.css"
+import Jumbotron from './components/Jumbotron';
+import Movies from './components/Movies';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component{
+
+    state = {
+        movies : []
+    }
+
+    componentDidMount(){
+        fetch("http://www.omdbapi.com/?apikey=ca4e0d91&s=home")
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            this.setState({
+                movies : data
+            })
+        })
+    }
+    
+    
+    render(){
+        return(
+            <>
+            <Jumbotron />
+            <Movies movies = {this.state.movies}/>
+            </>
+        )
+    }
 }
 
 export default App;
